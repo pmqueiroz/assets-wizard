@@ -9,7 +9,7 @@ export default function App() {
     return (
         <main>
             {showSettings && <SettingsForm toggle={setShowSettings} />}
-            <button 
+            <button
                 onClick={() => {
                     setShowSettings(true)
                 }}

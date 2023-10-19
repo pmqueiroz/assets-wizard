@@ -8,32 +8,27 @@ export const SettingsForm = ({ toggle }: { toggle: (nextValue: boolean) => void 
 
     useEffect(() => {
         window.onmessage = (event: MessageEvent) => {
-          const msg = event.data.pluginMessage;
+            const msg = event.data.pluginMessage
 
-          if (msg.type === "set-settings") {
-            if (!msg.settings) {
-              return;
+            if (msg.type === 'set-settings') {
+                if (!msg.settings) {
+                    return
+                }
+                for (const key in msg.settings as Settings) {
+                    setValue(key as keyof Settings, msg.settings[key])
+                }
+                setLoading(false)
             }
-    
-            for (const key in msg.settings as Settings) {
-                setValue(key as keyof Settings, msg.settings[key])
-            }
-            setLoading(false)
-          }
-        };
-    
-        window.parent.postMessage(
-          { pluginMessage: { type: "fetch-settings" } },
-          "*"
-        );
-      }, []);
+        }
 
+        window.parent.postMessage({ pluginMessage: { type: 'fetch-settings' } }, '*')
+    }, [])
 
     const onSubmit = handleSubmit(values => {
         window.parent.postMessage(
-            { pluginMessage: { type: "update-settings", settings: values } },
-            "*"
-        );
+            { pluginMessage: { type: 'update-settings', settings: values } },
+            '*'
+        )
 
         toggle(false)
     })
@@ -41,7 +36,7 @@ export const SettingsForm = ({ toggle }: { toggle: (nextValue: boolean) => void 
     if (loading) {
         return (
             <form className="modal" onSubmit={onSubmit}>
-               loading...
+                loading...
             </form>
         )
     }
@@ -50,19 +45,20 @@ export const SettingsForm = ({ toggle }: { toggle: (nextValue: boolean) => void 
         <form className="modal" onSubmit={onSubmit}>
             <label>
                 <span>Repository</span>
-                <input {...register('repo', { required: 'repo is required' })} ></input>
+                <input {...register('repo', { required: 'repo is required' })}></input>
             </label>
             <label>
                 <span>Personal Access Token</span>
-                <input type="password" {...register('token', { required: 'token is required' })}></input>
+                <input
+                    type="password"
+                    {...register('token', { required: 'token is required' })}
+                ></input>
             </label>
             <label>
                 <span>Event Type</span>
                 <input {...register('eventType', { required: 'event type is required' })}></input>
             </label>
-            <button 
-                type="submit"
-            >Salvar</button>
+            <button type="submit">Salvar</button>
         </form>
     )
 }

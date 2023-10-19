@@ -1,9 +1,9 @@
-import { Settings } from '../shared/types';
-import { callWebhook } from './helpers/call-webhook';
+import { Settings } from '../shared/types'
+import { callWebhook } from './helpers/call-webhook'
 import { exportAssets } from './helpers/export-assets'
-import { getSettings, setSettings } from './helpers/settings';
+import { getSettings, setSettings } from './helpers/settings'
 
-figma.showUI(__html__);
+figma.showUI(__html__)
 
 figma.ui.onmessage = async msg => {
     if (msg.type === 'export') {
@@ -15,7 +15,7 @@ figma.ui.onmessage = async msg => {
         const exportedAssets = await exportAssets(selection)
 
         try {
-            await callWebhook({ 
+            await callWebhook({
                 assets: exportedAssets,
                 repo,
                 token,
@@ -25,7 +25,7 @@ figma.ui.onmessage = async msg => {
             console.error(error)
             throw new Error('Error trying to call webook')
         } finally {
-            figma.closePlugin();
+            figma.closePlugin()
         }
     }
 
@@ -33,12 +33,12 @@ figma.ui.onmessage = async msg => {
         const settings = getSettings()
 
         figma.ui.postMessage({
-            type: "set-settings",
+            type: 'set-settings',
             settings
-        });
+        })
     }
 
     if (msg.type === 'update-settings') {
         setSettings(msg.settings as Settings)
     }
-};
+}

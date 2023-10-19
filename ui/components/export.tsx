@@ -2,13 +2,16 @@ import React from 'react'
 
 export const Export = () => {
     return (
-        <button 
+        <button
             onClick={() => {
-                parent.postMessage({ 
-                    pluginMessage: { 
-                    type: 'export',
-                } 
-                }, '*')
+                parent.postMessage(
+                    {
+                        pluginMessage: {
+                            type: 'export'
+                        }
+                    },
+                    '*'
+                )
             }}
         >
             Exportar
