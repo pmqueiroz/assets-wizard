@@ -10,7 +10,7 @@
     "watch": "concurrently \"npm run build:ui -- --watch\" \"npm run build:core -- --watch\""
   },
   "author": "pmqueiroz",
-  "license": "",
+  "license": "MIT",
   "devDependencies": {
     "@figma/plugin-typings": "*",
     "@types/handlebars": "^4.1.0",
