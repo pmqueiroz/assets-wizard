@@ -1,0 +1,31 @@
+{
+  "name": "assets-wizard",
+  "version": "1.0.0",
+  "description": "Export your assets directly to github actions",
+  "main": "code.js",
+  "scripts": {
+    "build": "concurrently \"npm run build:ui\" \"npm run  build:core\"",
+    "build:core": "esbuild src/index.ts --bundle --outfile=build/index.js --platform=node",
+    "build:ui": "npx vite build --minify esbuild --emptyOutDir=false",
+    "watch": "concurrently \"npm run build:ui -- --watch\" \"npm run build:core -- --watch\""
+  },
+  "author": "pmqueiroz",
+  "license": "",
+  "devDependencies": {
+    "@figma/plugin-typings": "*",
+    "@types/handlebars": "^4.1.0",
+    "@types/node": "^20.8.7",
+    "@types/react": "^18.2.29",
+    "@types/react-dom": "^18.2.14",
+    "@vitejs/plugin-react-refresh": "^1.3.6",
+    "concurrently": "^8.2.2",
+    "esbuild": "^0.19.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.47.0",
+    "shx": "^0.3.4",
+    "typescript": "*",
+    "vite": "^4.5.0",
+    "vite-plugin-singlefile": "^0.13.5"
+  }
+}

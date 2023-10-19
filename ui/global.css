@@ -1,0 +1,48 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Ubuntu Condensed';
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    height: 100vh;
+}
+
+button {
+    background: lightblue;
+    border: none;
+    font-size: 18px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: aqua;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    height: 100vh;
+    inset: 0;
+    position: absolute;
+    background: white;
+    padding: 15px;
+}
+
+label {
+    display: flex;
+    flex-direction: column;
+    width: 100%
+}
+
+label input {
+    width: 100%
+}

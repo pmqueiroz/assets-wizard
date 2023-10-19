@@ -1,0 +1,19 @@
+{
+  "name": "assets-wizard",
+  "id": "1289659312810724064",
+  "api": "1.0.0",
+  "main": "build/index.js",
+  "capabilities": [],
+  "enableProposedApi": false,
+  "editorType": [
+    "figma"
+  ],
+  "ui": "build/index.html",
+  "networkAccess": {
+    "allowedDomains": [
+      "https://api.github.com",
+      "https://fonts.googleapis.com",
+      "https://fonts.gstatic.com"
+    ]
+  }
+}
