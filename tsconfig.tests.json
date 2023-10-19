@@ -5,11 +5,12 @@
     "strict": true,
     "allowSyntheticDefaultImports": true,
     "typeRoots": [
-      "../node_modules/@types",
-      "../node_modules/@figma"
+      "./node_modules/@types",
+      "./node_modules/@figma"
     ],
   },
-  "exclude": [
-    "**/*.spec.*"
+  "include": [
+    "src/**/*.spec.ts",
+    "ui/**/*.spec.ts",
   ]
 }
