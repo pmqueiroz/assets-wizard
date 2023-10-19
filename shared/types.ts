@@ -6,6 +6,6 @@ export interface Settings {
 
 export interface Asset {
     blobType: string;
-    content: Uint8Array;
+    svg: string;
     name: string;
 }
