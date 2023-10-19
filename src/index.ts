@@ -10,7 +10,7 @@ figma.ui.onmessage = async msg => {
         const { selection } = figma.currentPage
         if (selection.length <= 0) throw new Error('You might have at least one asset selected')
 
-        const { eventType, repo, token } = getSettings({ validate: true })
+        const { eventType, repo, token } = await getSettings({ validate: true })
 
         const exportedAssets = await exportAssets(selection)
 
@@ -21,16 +21,17 @@ figma.ui.onmessage = async msg => {
                 token,
                 eventType
             })
+            figma.notify('Asets uploaded ;D')
         } catch (error) {
             console.error(error)
-            throw new Error('Error trying to call webook')
+            figma.notify('Something went wrong thryng to call the api', { error: true })
         } finally {
             figma.closePlugin()
         }
     }
 
     if (msg.type === 'fetch-settings') {
-        const settings = getSettings()
+        const settings = await getSettings()
 
         figma.ui.postMessage({
             type: 'set-settings',
@@ -39,6 +40,6 @@ figma.ui.onmessage = async msg => {
     }
 
     if (msg.type === 'update-settings') {
-        setSettings(msg.settings as Settings)
+       await setSettings(msg.settings as Settings)
     }
 }

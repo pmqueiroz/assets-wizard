@@ -3,9 +3,9 @@ import {  vi,  beforeEach } from 'vitest'
 let store = {}
 
 vi.stubGlobal('figma', {
-  currentPage: {
-      getPluginData: query => store[query],
-      setPluginData: vi.fn((key, value) =>  store[key] = value)
+  clientStorage: {
+      getAsync: vi.fn(query => Promise.resolve(store[query])),
+      setAsync: vi.fn((key, value) => Promise.resolve(store[key] = value))
   }
 })
 
@@ -18,5 +18,5 @@ vi.stubGlobal('utils', {
 })
 
 beforeEach(() => {
-    figma.currentPage.setPluginData.mockClear()
+    figma.clientStorage.setAsync.mockClear()
 })

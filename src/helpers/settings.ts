@@ -7,12 +7,12 @@ const validateSettings = ({ eventType, repo, token }: Settings) => {
         throw new Error('The repo you passed does not match the pattern [username]/[repository]')
 }
 
-export const getSettings = <V extends boolean>({ validate }: { validate?: V } = {}): V extends true
+export const getSettings = async <V extends boolean>({ validate }: { validate?: V } = {}): Promise<V extends true
     ? Required<Settings>
-    : Settings => {
-    const repo = figma.currentPage.getPluginData('repo')
-    const token = figma.currentPage.getPluginData('token')
-    const eventType = figma.currentPage.getPluginData('eventType')
+    : Settings> => {
+    const repo = await figma.clientStorage.getAsync('repo')
+    const token = await figma.clientStorage.getAsync('token')
+    const eventType = await figma.clientStorage.getAsync('eventType')
     const settings = { repo, token, eventType }
 
     if (validate) validateSettings(settings)
@@ -20,8 +20,8 @@ export const getSettings = <V extends boolean>({ validate }: { validate?: V } = 
     return settings
 }
 
-export const setSettings = (settings: Settings) => {
+export const setSettings = async (settings: Settings) => {
     for (const key in settings) {
-        figma.currentPage.setPluginData(key, settings[key as keyof Settings] as string)
+       await figma.clientStorage.setAsync(key, settings[key as keyof Settings] as string)
     }
 }
