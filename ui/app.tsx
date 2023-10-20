@@ -14,7 +14,7 @@ export default function App() {
                     setShowSettings(true)
                 }}
             >
-                Configurar
+                Settings
             </button>
             <Export />
         </main>

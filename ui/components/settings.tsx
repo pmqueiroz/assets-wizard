@@ -58,7 +58,7 @@ export const SettingsForm = ({ toggle }: { toggle: (nextValue: boolean) => void 
                 <span>Event Type</span>
                 <input {...register('eventType', { required: 'event type is required' })}></input>
             </label>
-            <button type="submit">Salvar</button>
+            <button type="submit">Save</button>
         </form>
     )
 }

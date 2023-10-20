@@ -14,7 +14,7 @@ export const Export = () => {
                 )
             }}
         >
-            Exportar
+            Export
         </button>
     )
 }
