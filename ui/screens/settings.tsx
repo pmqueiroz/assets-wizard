@@ -1,65 +1,29 @@
-import React, { useEffect, useState } from 'react'
-import { ScreenProps } from '../type'
-import { useForm } from 'react-hook-form'
+import React, { useState } from 'react'
+import { Plugin, PluginId, ScreenProps } from '../type'
 import { Settings } from '../../shared/types'
+import { plugins } from '../plugins'
 
 export default function Settings({ goTo }: ScreenProps) {
-    const [loading, setLoading] = useState<boolean>(true)
-    const { register, handleSubmit, setValue } = useForm<Settings>()
+    const [plugin, setPlugin] = useState<PluginId | undefined>('github')
 
-    useEffect(() => {
-        window.onmessage = (event: MessageEvent) => {
-            const msg = event.data.pluginMessage
-
-            if (msg.type === 'set-settings') {
-                if (!msg.settings) {
-                    return
-                }
-                for (const key in msg.settings as Settings) {
-                    setValue(key as keyof Settings, msg.settings[key])
-                }
-                setLoading(false)
-            }
-        }
-
-        window.parent.postMessage({ pluginMessage: { type: 'fetch-settings' } }, '*')
-    }, [])
-
-    const onSubmit = handleSubmit(values => {
-        window.parent.postMessage(
-            { pluginMessage: { type: 'update-settings', settings: values } },
-            '*'
-        )
-
-        goTo('home')
-    })
-
-    if (loading) {
-        return (
-            <form className="modal" onSubmit={onSubmit}>
-                loading...
-            </form>
-        )
-    }
+    const Plugin = plugin ? plugins[plugin] : ((() => null) as unknown as Plugin)
 
     return (
-        <form className="modal" onSubmit={onSubmit}>
+        <div className="container">
             <label>
-                <span>Repository</span>
-                <input {...register('repo', { required: 'repo is required' })}></input>
+                <span>Preset</span>
+                <select defaultValue={plugin} onChange={e => setPlugin(e.target.value as PluginId)}>
+                    <option value="" hidden>
+                        Select one
+                    </option>
+                    {Object.keys(plugins).map(pluginName => (
+                        <option key={pluginName} value={pluginName}>
+                            {pluginName}
+                        </option>
+                    ))}
+                </select>
             </label>
-            <label>
-                <span>Personal Access Token</span>
-                <input
-                    type="password"
-                    {...register('token', { required: 'token is required' })}
-                ></input>
-            </label>
-            <label>
-                <span>Event Type</span>
-                <input {...register('eventType', { required: 'event type is required' })}></input>
-            </label>
-            <button type="submit">Save</button>
-        </form>
+            <Plugin goTo={goTo} />
+        </div>
     )
 }

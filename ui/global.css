@@ -5,13 +5,15 @@
     font-family: 'Ubuntu Condensed';
 }
 
-main {
+main, .container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 10px;
     height: 100vh;
+    width: 100%;
+    padding: 10px;
 }
 
 button {
@@ -32,11 +34,8 @@ form {
     justify-content: center;
     align-items: center;
     gap: 10px;
-    height: 100vh;
-    inset: 0;
-    position: absolute;
     background: white;
-    padding: 15px;
+    width: 100%;
 }
 
 label {
