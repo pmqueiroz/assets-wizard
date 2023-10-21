@@ -1,22 +1,16 @@
 import React, { useState } from 'react'
 import './global.css'
-import { SettingsForm } from './components/settings'
-import { Export } from './components/export'
+import { screens } from './screens'
+import { ScreenId } from './type'
 
 export default function App() {
-    const [showSettings, setShowSettings] = useState(false)
+    const [currentScreen, setScreen] = useState<ScreenId>('home')
+
+    const Screen = screens[currentScreen]
 
     return (
         <main>
-            {showSettings && <SettingsForm toggle={setShowSettings} />}
-            <button
-                onClick={() => {
-                    setShowSettings(true)
-                }}
-            >
-                Settings
-            </button>
-            <Export />
+            <Screen currentScreen={currentScreen} goTo={setScreen} />
         </main>
     )
 }

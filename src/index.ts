@@ -40,6 +40,6 @@ figma.ui.onmessage = async msg => {
     }
 
     if (msg.type === 'update-settings') {
-       await setSettings(msg.settings as Settings)
+        await setSettings(msg.settings as Settings)
     }
 }

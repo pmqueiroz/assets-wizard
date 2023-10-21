@@ -83,9 +83,7 @@ describe('getSettings', () => {
             try {
                 await getSettings({ validate: true })
             } catch (error) {
-                expect(error.message).toBe(
-                    'Your need to config all the settings first'
-                )
+                expect(error.message).toBe('Your need to config all the settings first')
             }
         })
     })
