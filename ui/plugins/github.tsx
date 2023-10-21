@@ -4,6 +4,7 @@ import { PluginProps } from '../type'
 import { useForm } from 'react-hook-form'
 import { Settings } from '../../shared/types'
 import { useSettings } from '../hooks/use-storage'
+import { Input } from '../components/input'
 
 interface GithubSettings {
     repo?: string
@@ -30,7 +31,12 @@ const parseSettings = ({ eventType, repo, token }: GithubSettings): Settings => 
 }
 
 export default function Github({ goTo }: PluginProps) {
-    const { register, handleSubmit, setValue } = useForm<GithubSettings>()
+    const {
+        register,
+        handleSubmit,
+        setValue,
+        formState: { errors }
+    } = useForm<GithubSettings>()
 
     const { settings, setSettings, loading } = useSettings()
 
@@ -60,21 +66,34 @@ export default function Github({ goTo }: PluginProps) {
 
     return (
         <form className="modal" onSubmit={onSubmit}>
-            <label>
-                <span>Repository</span>
-                <input {...register('repo', { required: 'repo is required' })}></input>
-            </label>
-            <label>
-                <span>Personal Access Token</span>
-                <input
-                    type="password"
-                    {...register('token', { required: 'token is required' })}
-                ></input>
-            </label>
-            <label>
-                <span>Event Type</span>
-                <input {...register('eventType', { required: 'event type is required' })}></input>
-            </label>
+            <Input
+                label="Repository"
+                error={errors.repo?.message}
+                required
+                {...register('repo', {
+                    required: 'repo is required',
+                    validate: {
+                        pattern: v => {
+                            if (!/[\w.-]+\/[\w.-]+/.test(v || '')) {
+                                return 'The repo does not match the pattern [username]/[repository]'
+                            }
+                        }
+                    }
+                })}
+            />
+            <Input
+                label="Personal Access Token"
+                error={errors.token?.message}
+                required
+                type="password"
+                {...register('token', { required: 'token is required' })}
+            />
+            <Input
+                label="Event Type"
+                error={errors.eventType?.message}
+                required
+                {...register('eventType', { required: 'event type is required' })}
+            />
             <button type="submit">Save</button>
         </form>
     )
