@@ -4,19 +4,10 @@ interface CallWebhookConfig extends Settings {
     assets: Asset[]
 }
 
-export const callWebhook = async ({ assets, repo, token, eventType }: CallWebhookConfig) => {
-    await fetch(`https://api.github.com/repos/${repo}/dispatches`, {
+export const callWebhook = async ({ assets, data, headers, url }: CallWebhookConfig) => {
+    await fetch(url, {
         method: 'POST',
-        body: JSON.stringify({
-            event_type: eventType,
-            client_payload: {
-                assets
-            }
-        }),
-        headers: {
-            accept: 'application/vnd.github.v3+json',
-            'content-type': 'application/json',
-            authorization: `Bearer ${token}`
-        }
+        body: data.replace('%ASSETS%', JSON.stringify(assets)),
+        headers
     })
 }

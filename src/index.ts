@@ -3,23 +3,26 @@ import { callWebhook } from './helpers/call-webhook'
 import { exportAssets } from './helpers/export-assets'
 import { getSettings, setSettings } from './helpers/settings'
 
-figma.showUI(__html__)
+figma.showUI(__html__, { height: 400 })
 
 figma.ui.onmessage = async msg => {
     if (msg.type === 'export') {
         const { selection } = figma.currentPage
         if (selection.length <= 0) throw new Error('You might have at least one asset selected')
 
-        const { eventType, repo, token } = await getSettings({ validate: true })
+        const { data, headers, url } = await getSettings()
+
+        if (!data || !headers || !url)
+            throw new Error('You need to set your settings before export')
 
         const exportedAssets = await exportAssets(selection)
 
         try {
             await callWebhook({
                 assets: exportedAssets,
-                repo,
-                token,
-                eventType
+                data,
+                headers,
+                url
             })
             figma.notify('Asets uploaded ;D')
         } catch (error) {
