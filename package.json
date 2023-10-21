@@ -11,7 +11,7 @@
     "lint": "run-p lint:*",
     "lint:types:ui": "tsc --noEmit -p ./ui/tsconfig.json",
     "lint:types:core": "tsc --noEmit -p ./src/tsconfig.json",
-    "lint:style": "eslint src ui --ext .ts,.tsx",
+    "lint:style": "eslint src ui shared --ext .ts,.tsx",
     "test": "vitest --run",
     "coverage": "vitest --coverage"
   },
@@ -44,5 +44,8 @@
     "vite": "^4.5.0",
     "vite-plugin-singlefile": "^0.13.5",
     "vitest": "^0.34.6"
+  },
+  "dependencies": {
+    "use-deep-compare-effect": "^1.8.1"
   }
 }

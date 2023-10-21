@@ -1,11 +1,16 @@
+import { PluginId } from '../ui/type'
+
 export interface Settings {
-    repo?: string
-    token?: string
-    eventType?: string
+    url: string
+    data: string
+    headers: Record<string, string>
+    metadata?: {
+        pluginName: PluginId
+    } & Record<string, unknown>
 }
 
 export interface Asset {
-    blobType: string;
-    svg: string;
-    name: string;
+    blobType: string
+    svg: string
+    name: string
 }

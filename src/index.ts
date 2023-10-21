@@ -10,16 +10,16 @@ figma.ui.onmessage = async msg => {
         const { selection } = figma.currentPage
         if (selection.length <= 0) throw new Error('You might have at least one asset selected')
 
-        const { eventType, repo, token } = await getSettings({ validate: true })
+        const { data, headers, url } = await getSettings()
 
         const exportedAssets = await exportAssets(selection)
 
         try {
             await callWebhook({
                 assets: exportedAssets,
-                repo,
-                token,
-                eventType
+                data,
+                headers,
+                url
             })
             figma.notify('Asets uploaded ;D')
         } catch (error) {

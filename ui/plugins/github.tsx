@@ -1,35 +1,51 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
+import useDeepCompareEffect from 'use-deep-compare-effect'
 import { PluginProps } from '../type'
 import { useForm } from 'react-hook-form'
 import { Settings } from '../../shared/types'
+import { useSettings } from '../hooks/use-storage'
+
+interface GithubSettings {
+    repo?: string
+    token?: string
+    eventType?: string
+}
+
+const parseSettings = ({ eventType, repo, token }: GithubSettings): Settings => {
+    return {
+        url: `https://api.github.com/repos/${repo}/dispatches`,
+        data: `{"event_type":"${eventType}","client_payload":{"assets":%ASSETS%}}`,
+        headers: {
+            accept: 'application/vnd.github.v3+json',
+            'content-type': 'application/json',
+            authorization: `Bearer ${token}`
+        },
+        metadata: {
+            pluginName: 'github',
+            eventType,
+            repo,
+            token
+        }
+    }
+}
 
 export default function Github({ goTo }: PluginProps) {
-    const [loading, setLoading] = useState<boolean>(true)
-    const { register, handleSubmit, setValue } = useForm<Settings>()
+    const { register, handleSubmit, setValue } = useForm<GithubSettings>()
 
-    useEffect(() => {
-        window.onmessage = (event: MessageEvent) => {
-            const msg = event.data.pluginMessage
+    const { settings, setSettings, loading } = useSettings()
 
-            if (msg.type === 'set-settings') {
-                if (!msg.settings) {
-                    return
-                }
-                for (const key in msg.settings as Settings) {
-                    setValue(key as keyof Settings, msg.settings[key])
-                }
-                setLoading(false)
-            }
+    useDeepCompareEffect(() => {
+        if (settings?.metadata?.pluginName === 'github') {
+            const { eventType, repo, token } = settings.metadata as GithubSettings
+
+            setValue('eventType', eventType)
+            setValue('repo', repo)
+            setValue('token', token)
         }
-
-        window.parent.postMessage({ pluginMessage: { type: 'fetch-settings' } }, '*')
-    }, [])
+    }, [settings])
 
     const onSubmit = handleSubmit(values => {
-        window.parent.postMessage(
-            { pluginMessage: { type: 'update-settings', settings: values } },
-            '*'
-        )
+        setSettings(parseSettings(values))
 
         goTo('home')
     })

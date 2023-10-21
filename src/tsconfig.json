@@ -8,6 +8,7 @@
       "../node_modules/@types",
       "../node_modules/@figma"
     ],
+    "moduleResolution": "NodeNext"
   },
   "exclude": [
     "**/*.spec.*"
