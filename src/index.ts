@@ -12,6 +12,9 @@ figma.ui.onmessage = async msg => {
 
         const { data, headers, url } = await getSettings()
 
+        if (!data || !headers || !url)
+            throw new Error('You need to set your settings before export')
+
         const exportedAssets = await exportAssets(selection)
 
         try {
