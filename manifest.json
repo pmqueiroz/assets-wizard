@@ -10,6 +10,7 @@
   ],
   "ui": "build/index.html",
   "networkAccess": {
-    "allowedDomains": ["*"]
+    "allowedDomains": ["*"],
+    "reasoning": "This permission is essential to ensure the plugin's seamless operation when users input custom webhook URLs. Enabling this capability provides users with the flexibility to integrate the plugin with their preferred services and APIs."
   }
 }
