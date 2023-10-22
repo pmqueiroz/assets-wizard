@@ -21,10 +21,18 @@ button {
     border: none;
     font-size: 18px;
     padding: 5px 10px;
-    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-button:hover {
+button.small {
+    aspect-ratio: 1/1;
+    height: 25px;
+}
+
+button:hover:not(:disabled) {
+    cursor: pointer;
     background-color: aqua;
 }
 

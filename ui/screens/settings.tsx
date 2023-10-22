@@ -1,12 +1,22 @@
 import React, { useState } from 'react'
 import { Plugin, PluginId, ScreenProps } from '../type'
-import { Settings } from '../../shared/types'
 import { plugins } from '../plugins'
+import { useSettings } from '../hooks/use-storage'
+import useDeepCompareEffect from 'use-deep-compare-effect'
 
 export default function Settings({ goTo }: ScreenProps) {
-    const [plugin, setPlugin] = useState<PluginId | undefined>('github')
+    const { settings, setSettings, loading } = useSettings()
+    const [plugin, setPlugin] = useState<PluginId | undefined>(settings?.metadata?.pluginName)
+
+    useDeepCompareEffect(() => {
+        setPlugin(settings?.metadata?.pluginName)
+    }, [settings])
 
     const Plugin = plugin ? plugins[plugin] : ((() => null) as unknown as Plugin)
+
+    if (loading) {
+        return <div>loading...</div>
+    }
 
     return (
         <div className="container">
@@ -23,7 +33,7 @@ export default function Settings({ goTo }: ScreenProps) {
                     ))}
                 </select>
             </label>
-            <Plugin goTo={goTo} />
+            <Plugin goTo={goTo} settings={settings} setSettings={setSettings} />
         </div>
     )
 }

@@ -3,7 +3,6 @@ import useDeepCompareEffect from 'use-deep-compare-effect'
 import { PluginProps } from '../type'
 import { useForm } from 'react-hook-form'
 import { Settings } from '../../shared/types'
-import { useSettings } from '../hooks/use-storage'
 import { Input } from '../components/input'
 
 interface GithubSettings {
@@ -30,15 +29,13 @@ const parseSettings = ({ eventType, repo, token }: GithubSettings): Settings => 
     }
 }
 
-export default function Github({ goTo }: PluginProps) {
+export default function Github({ goTo, setSettings, settings }: PluginProps) {
     const {
         register,
         handleSubmit,
         setValue,
         formState: { errors }
     } = useForm<GithubSettings>()
-
-    const { settings, setSettings, loading } = useSettings()
 
     useDeepCompareEffect(() => {
         if (settings?.metadata?.pluginName === 'github') {
@@ -55,14 +52,6 @@ export default function Github({ goTo }: PluginProps) {
 
         goTo('home')
     })
-
-    if (loading) {
-        return (
-            <form className="modal" onSubmit={onSubmit}>
-                loading...
-            </form>
-        )
-    }
 
     return (
         <form className="modal" onSubmit={onSubmit}>
