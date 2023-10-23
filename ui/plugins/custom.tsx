@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import useDeepCompareEffect from 'use-deep-compare-effect'
 import { PluginProps } from '../type'
 import { useForm } from 'react-hook-form'
@@ -28,7 +28,7 @@ const parseSettings = ({ data, headers, url }: CustomSettings): Settings => {
     }
 }
 
-export default function Custom({ goTo, setSettings, settings }: PluginProps) {
+export default function Custom({ setSettings, settings, exportButton }: PluginProps) {
     const {
         register,
         handleSubmit,
@@ -52,11 +52,7 @@ export default function Custom({ goTo, setSettings, settings }: PluginProps) {
         }
     }, [settings])
 
-    const onSubmit = handleSubmit(values => {
-        setSettings(parseSettings(values))
-
-        goTo('home')
-    })
+    const onSubmit = (values: CustomSettings) => setSettings(parseSettings(values))
 
     const handleRemoveHeader = (index: number) => {
         setValue(
@@ -65,8 +61,14 @@ export default function Custom({ goTo, setSettings, settings }: PluginProps) {
         )
     }
 
+    useEffect(() => {
+        const subscription = watch(() => handleSubmit(onSubmit)())
+
+        return () => subscription.unsubscribe()
+    }, [handleSubmit, watch])
+
     return (
-        <form className="modal" onSubmit={onSubmit}>
+        <div className="form-wrapper">
             <Input
                 label="Url"
                 error={errors.url?.message}
@@ -120,8 +122,8 @@ export default function Custom({ goTo, setSettings, settings }: PluginProps) {
                 >
                     Add Header
                 </button>
-                <button type="submit">Save</button>
+                {exportButton}
             </div>
-        </form>
+        </div>
     )
 }
