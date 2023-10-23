@@ -57,7 +57,7 @@ export default function Github({ setSettings, settings, exportButton }: PluginPr
     }, [handleSubmit, watch])
 
     return (
-        <div className="flex flex-col justify-center items-center gap-2.5 w-full">
+        <div className="flex flex-col justify-center items-center gap-2.5 w-full grow">
             <Input
                 label="Repository"
                 error={errors.repo?.message}
@@ -86,7 +86,7 @@ export default function Github({ setSettings, settings, exportButton }: PluginPr
                 required
                 {...register('eventType', { required: 'event type is required' })}
             />
-            {exportButton}
+            <div className="w-full mt-auto">{exportButton}</div>
         </div>
     )
 }
