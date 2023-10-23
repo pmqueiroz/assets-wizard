@@ -24,7 +24,7 @@ figma.ui.onmessage = async msg => {
                 headers,
                 url
             })
-            figma.notify('Asets uploaded ;D')
+            figma.notify('Assets uploaded ;D')
         } catch (error) {
             console.error(error)
             figma.notify('Something went wrong thryng to call the api', { error: true })
