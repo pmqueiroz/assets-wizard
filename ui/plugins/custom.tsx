@@ -61,7 +61,7 @@ export default function Custom({ goTo, setSettings, settings }: PluginProps) {
     const handleRemoveHeader = (index: number) => {
         setValue(
             'headers',
-            headers.filter((_, i) => index === i)
+            headers.filter((_, i) => index !== i)
         )
     }
 
