@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import useDeepCompareEffect from 'use-deep-compare-effect'
 import { PluginProps } from '../type'
 import { useForm } from 'react-hook-form'
@@ -29,11 +29,12 @@ const parseSettings = ({ eventType, repo, token }: GithubSettings): Settings => 
     }
 }
 
-export default function Github({ goTo, setSettings, settings }: PluginProps) {
+export default function Github({ setSettings, settings, exportButton }: PluginProps) {
     const {
         register,
         handleSubmit,
         setValue,
+        watch,
         formState: { errors }
     } = useForm<GithubSettings>()
 
@@ -47,14 +48,16 @@ export default function Github({ goTo, setSettings, settings }: PluginProps) {
         }
     }, [settings])
 
-    const onSubmit = handleSubmit(values => {
-        setSettings(parseSettings(values))
+    const onSubmit = (values: GithubSettings) => setSettings(parseSettings(values))
 
-        goTo('home')
-    })
+    useEffect(() => {
+        const subscription = watch(() => handleSubmit(onSubmit)())
+
+        return () => subscription.unsubscribe()
+    }, [handleSubmit, watch])
 
     return (
-        <form className="modal" onSubmit={onSubmit}>
+        <div className="form-wrapper">
             <Input
                 label="Repository"
                 error={errors.repo?.message}
@@ -83,7 +86,7 @@ export default function Github({ goTo, setSettings, settings }: PluginProps) {
                 required
                 {...register('eventType', { required: 'event type is required' })}
             />
-            <button type="submit">Save</button>
-        </form>
+            {exportButton}
+        </div>
     )
 }

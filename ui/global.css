@@ -36,7 +36,7 @@ button:hover:not(:disabled) {
     background-color: aqua;
 }
 
-form {
+.form-wrapper {
     display: flex;
     flex-direction: column;
     justify-content: center;
