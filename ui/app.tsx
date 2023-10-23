@@ -5,6 +5,9 @@ import { useSettings } from './hooks/use-storage'
 import './global.css'
 import useDeepCompareEffect from 'use-deep-compare-effect'
 
+import { Button } from './components/button'
+import { Select } from './components/select'
+
 export default function App() {
     const { settings, setSettings, loading } = useSettings()
     const [plugin, setPlugin] = useState<PluginId | undefined>(settings?.metadata?.pluginName)
@@ -20,25 +23,28 @@ export default function App() {
     }
 
     return (
-        <div className="container">
-            <label>
-                <span>Preset</span>
-                <select defaultValue={plugin} onChange={e => setPlugin(e.target.value as PluginId)}>
-                    <option value="" hidden>
-                        Select one
+        <div className="flex flex-col p-4 gap-3 min-h-screen">
+            <Select
+                label="Preset"
+                defaultValue={plugin}
+                onChange={e => setPlugin(e.target.value as PluginId)}
+            >
+                <option value="" hidden>
+                    Select one
+                </option>
+                {Object.keys(plugins).map(pluginName => (
+                    <option key={pluginName} value={pluginName}>
+                        {pluginName}
                     </option>
-                    {Object.keys(plugins).map(pluginName => (
-                        <option key={pluginName} value={pluginName}>
-                            {pluginName}
-                        </option>
-                    ))}
-                </select>
-            </label>
+                ))}
+            </Select>
             <Plugin
                 settings={settings}
                 setSettings={setSettings}
                 exportButton={
-                    <button
+                    <Button
+                        expand
+                        variant="primary"
                         onClick={() => {
                             parent.postMessage(
                                 {
@@ -51,7 +57,7 @@ export default function App() {
                         }}
                     >
                         Export
-                    </button>
+                    </Button>
                 }
             />
         </div>
