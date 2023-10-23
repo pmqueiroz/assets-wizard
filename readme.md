@@ -3,9 +3,11 @@
 
 ### What is? 
 
-A Figma plugin to send assets directly to webhooks (currently only support [github actions repository dipatches](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#repository_dispatch))
+A Figma plugin to send assets directly to webhooks
 
-### Settings
+### Built-in webhook pre-sets
+
+#### Github
 
 |Name | Description |
 |-----|-------------|
@@ -51,4 +53,3 @@ jobs:
           title: 'feat: update icons through figma'
           token: ${{ github.token }}
 ```
-
