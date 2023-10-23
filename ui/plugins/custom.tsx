@@ -5,6 +5,8 @@ import { useForm } from 'react-hook-form'
 import { Settings } from '../../shared/types'
 import { Input } from '../components/input'
 import { validadeDataTemplate } from '../helpers/validate-data-template'
+import { Button } from '../components/button'
+import { IoMdClose } from 'react-icons/io'
 
 interface CustomSettings {
     url: string
@@ -68,60 +70,57 @@ export default function Custom({ setSettings, settings, exportButton }: PluginPr
     }, [handleSubmit, watch])
 
     return (
-        <div className="form-wrapper">
-            <Input
-                label="Url"
-                error={errors.url?.message}
-                required
-                {...register('url', {
-                    required: 'url is required'
-                })}
-            />
-            <Input
-                label="Data"
-                error={errors.data?.message}
-                required
-                {...register('data', {
-                    required: 'data is required',
-                    validate: {
-                        isValidJson: value => {
-                            const isValidJson = validadeDataTemplate(value)
+        <div className="flex flex-col w-full h-full grow">
+            <div className="flex flex-col justify-center items-center gap-3 w-full">
+                <Input
+                    label="Url"
+                    error={errors.url?.message}
+                    required
+                    {...register('url', {
+                        required: 'url is required'
+                    })}
+                />
+                <Input
+                    label="Data"
+                    error={errors.data?.message}
+                    required
+                    {...register('data', {
+                        required: 'data is required',
+                        validate: {
+                            isValidJson: value => {
+                                const isValidJson = validadeDataTemplate(value)
 
-                            if (!isValidJson) return 'Data should be a valid JSON string'
+                                if (!isValidJson) return 'Data should be a valid JSON string'
+                            }
                         }
-                    }
+                    })}
+                />
+                {headers.map((_, index) => {
+                    return (
+                        <div className="flex gap-2 w-full items-end">
+                            <Input label="Header Name" {...register(`headers.${index}.0`)} />
+                            <Input label="Value" {...register(`headers.${index}.1`)} />
+                            <Button
+                                variant="neutral"
+                                type="button"
+                                onClick={() => handleRemoveHeader(index)}
+                                disabled={index === 0 && headers.length === 1}
+                            >
+                                <IoMdClose />
+                            </Button>
+                        </div>
+                    )
                 })}
-            />
-            {headers.map((_, index) => {
-                return (
-                    <div style={{ display: 'flex', gap: '8px', width: '100%', alignItems: 'end' }}>
-                        <Input label="Header Name" {...register(`headers.${index}.0`)} />
-                        <Input label="Value" {...register(`headers.${index}.1`)} />
-                        <button
-                            className="small"
-                            type="button"
-                            onClick={() => handleRemoveHeader(index)}
-                            disabled={index === 0 && headers.length === 1}
-                        >
-                            X
-                        </button>
-                    </div>
-                )
-            })}
-            <div
-                style={{
-                    display: 'flex',
-                    gap: '8px',
-                    width: '100%',
-                    justifyContent: 'center'
-                }}
-            >
-                <button
+            </div>
+            <div className="flex items-center gap-2 w-full justify-center pt-4 mt-auto">
+                <Button
+                    expand
+                    variant="neutral"
                     type="button"
                     onClick={() => setValue(`headers.${headers.length + 1}`, ['', ''])}
                 >
                     Add Header
-                </button>
+                </Button>
                 {exportButton}
             </div>
         </div>

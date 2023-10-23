@@ -57,7 +57,7 @@ export default function Github({ setSettings, settings, exportButton }: PluginPr
     }, [handleSubmit, watch])
 
     return (
-        <div className="form-wrapper">
+        <div className="flex flex-col justify-center items-center gap-2.5 w-full">
             <Input
                 label="Repository"
                 error={errors.repo?.message}

@@ -7,7 +7,7 @@
     "build": "concurrently \"npm run build:ui\" \"npm run  build:core\"",
     "build:core": "esbuild src/index.ts --bundle --outfile=build/index.js --platform=node",
     "build:ui": "npx vite build --minify esbuild --emptyOutDir=false",
-    "watch": "concurrently \"npm run build:ui -- --watch\" \"npm run build:core -- --watch\"",
+    "dev": "concurrently \"npm run build:ui -- --watch\" \"npm run build:core -- --watch\"",
     "lint": "run-p lint:*",
     "lint:types:ui": "tsc --noEmit -p ./ui/tsconfig.json",
     "lint:types:core": "tsc --noEmit -p ./src/tsconfig.json",
@@ -46,6 +46,7 @@
     "vitest": "^0.34.6"
   },
   "dependencies": {
+    "react-icons": "^4.11.0",
     "use-deep-compare-effect": "^1.8.1"
   }
 }
