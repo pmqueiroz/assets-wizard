@@ -7,6 +7,11 @@ figma.showUI(__html__, { height: 500, width: 450 })
 
 figma.ui.onmessage = async msg => {
     if (msg.type === 'export') {
+        figma.ui.postMessage({
+            type: 'set-export-loading',
+            state: true
+        })
+
         const { selection } = figma.currentPage
         if (selection.length <= 0) throw new Error('You might have at least one asset selected')
 
@@ -25,11 +30,15 @@ figma.ui.onmessage = async msg => {
                 url
             })
             figma.notify('Assets uploaded ;D')
+            figma.closePlugin()
         } catch (error) {
             console.error(error)
             figma.notify('Something went wrong thryng to call the api', { error: true })
         } finally {
-            figma.closePlugin()
+            figma.ui.postMessage({
+                type: 'set-export-loading',
+                state: false
+            })
         }
     }
 

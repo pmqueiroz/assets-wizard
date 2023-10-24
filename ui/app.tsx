@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Plugin, PluginId } from './type'
 import { plugins } from './plugins'
-import { useSettings } from './hooks/use-storage'
+import { useGlobalSettings } from './hooks/use-global-settings'
 import './global.css'
 import useDeepCompareEffect from 'use-deep-compare-effect'
 
@@ -9,16 +9,17 @@ import { Button } from './components/button'
 import { Select } from './components/select'
 
 export default function App() {
-    const { settings, setSettings, loading } = useSettings()
-    const [plugin, setPlugin] = useState<PluginId | undefined>(settings?.metadata?.pluginName)
+    const { loadingExport, loadingPluginSettings, pluginSettings, setPluginSettings } =
+        useGlobalSettings()
+    const [plugin, setPlugin] = useState<PluginId | undefined>(pluginSettings?.metadata?.pluginName)
 
     useDeepCompareEffect(() => {
-        setPlugin(settings?.metadata?.pluginName)
-    }, [settings])
+        setPlugin(pluginSettings?.metadata?.pluginName)
+    }, [pluginSettings])
 
     const Plugin = plugin ? plugins[plugin] : ((() => null) as unknown as Plugin)
 
-    if (loading) {
+    if (loadingPluginSettings) {
         return <div>loading...</div>
     }
 
@@ -39,12 +40,14 @@ export default function App() {
                 ))}
             </Select>
             <Plugin
-                settings={settings}
-                setSettings={setSettings}
+                settings={pluginSettings}
+                setSettings={setPluginSettings}
                 exportButton={
                     <Button
                         expand
                         variant="primary"
+                        loading={loadingExport}
+                        disabled={loadingExport}
                         onClick={() => {
                             parent.postMessage(
                                 {

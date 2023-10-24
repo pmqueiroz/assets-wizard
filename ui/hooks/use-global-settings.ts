@@ -1,21 +1,26 @@
 import { useEffect, useState } from 'react'
 import { Settings } from '../../shared/types'
 
-export const useSettings = () => {
-    const [settings, setSettings] = useState<Settings | undefined>()
-    const [loading, setLoading] = useState<boolean>(true)
+export const useGlobalSettings = () => {
+    const [pluginSettings, setPluginSettings] = useState<Settings | undefined>()
+    const [loadingPluginSettings, setLoadingPluginSettings] = useState<boolean>(true)
+    const [loadingExport, setloadingExport] = useState<boolean>(false)
 
     const handleMessage = (event: MessageEvent) => {
         const msg = event.data.pluginMessage
 
         if (msg.type === 'set-settings') {
             if (!msg.settings) {
-                setLoading(false)
+                setLoadingPluginSettings(false)
                 return
             }
 
-            setSettings(msg.settings)
-            setLoading(false)
+            setPluginSettings(msg.settings)
+            setLoadingPluginSettings(false)
+        }
+
+        if (msg.type === 'set-export-loading') {
+            setloadingExport(msg.state ?? false)
         }
     }
 
@@ -31,12 +36,13 @@ export const useSettings = () => {
 
     const handleSetSettings = (settings: Settings) => {
         window.parent.postMessage({ pluginMessage: { type: 'update-settings', settings } }, '*')
-        setSettings(settings)
+        setPluginSettings(settings)
     }
 
     return {
-        settings,
-        loading,
-        setSettings: handleSetSettings
+        pluginSettings,
+        loadingPluginSettings,
+        setPluginSettings: handleSetSettings,
+        loadingExport
     }
 }
