@@ -76,6 +76,7 @@ export default function Custom({ setSettings, settings, exportButton }: PluginPr
                     label="Url"
                     error={errors.url?.message}
                     required
+                    placeholder="https://your-webhook-url.com"
                     {...register('url', {
                         required: 'url is required'
                     })}
@@ -84,6 +85,7 @@ export default function Custom({ setSettings, settings, exportButton }: PluginPr
                     label="Data"
                     error={errors.data?.message}
                     required
+                    placeholder='{ "some": "json" }'
                     {...register('data', {
                         required: 'data is required',
                         validate: {

@@ -13,12 +13,12 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 <span className="font-medium text-sm text-gray-600">
                     {label} {required && <span className="text-red-600">*</span>}
                 </span>
-                <div className="flex items-center p-2 border-solid border-2 focus-within:border-purple-600 rounded-lg h-12">
+                <div className="flex items-center px-2 border-solid border-2 focus-within:border-purple-600 rounded-lg h-12">
                     <input
-                        className="w-full outline-none font-medium text-base"
+                        className="w-full h-full outline-none font-medium text-base"
                         ref={ref}
                         {...rest}
-                    ></input>
+                    />
                 </div>
                 {error && <span className="font-normal text-xs text-red-600">{error}</span>}
             </div>

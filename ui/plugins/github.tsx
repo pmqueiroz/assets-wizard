@@ -62,6 +62,7 @@ export default function Github({ setSettings, settings, exportButton }: PluginPr
                 label="Repository"
                 error={errors.repo?.message}
                 required
+                placeholder="org/repo"
                 {...register('repo', {
                     required: 'repo is required',
                     validate: {
@@ -77,6 +78,7 @@ export default function Github({ setSettings, settings, exportButton }: PluginPr
                 label="Personal Access Token"
                 error={errors.token?.message}
                 required
+                placeholder="ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
                 type="password"
                 {...register('token', { required: 'token is required' })}
             />
