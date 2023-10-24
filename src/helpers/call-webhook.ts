@@ -5,9 +5,13 @@ interface CallWebhookConfig extends Settings {
 }
 
 export const callWebhook = async ({ assets, data, headers, url }: CallWebhookConfig) => {
-    await fetch(url, {
+    const response = await fetch(url, {
         method: 'POST',
         body: data.replace('%ASSETS%', JSON.stringify(assets)),
         headers
     })
+
+    if (!response.ok) {
+        throw new Error(`Request failed with the status ${response.status}`)
+    }
 }
