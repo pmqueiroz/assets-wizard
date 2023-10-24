@@ -3,7 +3,7 @@ import { callWebhook } from './helpers/call-webhook'
 import { exportAssets } from './helpers/export-assets'
 import { getSettings, setSettings } from './helpers/settings'
 
-figma.showUI(__html__, { height: 500, width: 450 })
+figma.showUI(__html__, { height: 500, width: 450, title: 'Asset Wizard' })
 
 figma.ui.onmessage = async msg => {
     if (msg.type === 'export') {
