@@ -33,7 +33,7 @@ figma.ui.onmessage = async msg => {
             figma.closePlugin()
         } catch (error) {
             console.error(error)
-            figma.notify('Something went wrong thryng to call the api', { error: true })
+            figma.notify(`Something went wrong thryng to call the api: ${error}`, { error: true })
         } finally {
             figma.ui.postMessage({
                 type: 'set-export-loading',
