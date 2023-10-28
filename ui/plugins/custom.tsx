@@ -30,7 +30,7 @@ const parseSettings = ({ data, headers, url }: CustomSettings): Settings => {
     }
 }
 
-export default function Custom({ setSettings, settings, exportButton }: PluginProps) {
+export default function Custom({ setSettings, settings, toolbar: Toolbar }: PluginProps) {
     const {
         register,
         handleSubmit,
@@ -114,17 +114,18 @@ export default function Custom({ setSettings, settings, exportButton }: PluginPr
                     )
                 })}
             </div>
-            <div className="flex items-center gap-2 w-full justify-center pt-4 mt-auto">
-                <Button
-                    expand
-                    variant="neutral"
-                    type="button"
-                    onClick={() => setValue(`headers.${headers.length + 1}`, ['', ''])}
-                >
-                    Add Header
-                </Button>
-                {exportButton}
-            </div>
+            <Toolbar
+                slot={
+                    <Button
+                        expand
+                        variant="neutral"
+                        type="button"
+                        onClick={() => setValue(`headers.${headers.length + 1}`, ['', ''])}
+                    >
+                        Add Header
+                    </Button>
+                }
+            />
         </div>
     )
 }

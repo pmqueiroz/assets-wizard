@@ -29,7 +29,7 @@ const parseSettings = ({ eventType, repo, token }: GithubSettings): Settings => 
     }
 }
 
-export default function Github({ setSettings, settings, exportButton }: PluginProps) {
+export default function Github({ setSettings, settings, toolbar: Toolbar }: PluginProps) {
     const {
         register,
         handleSubmit,
@@ -88,7 +88,7 @@ export default function Github({ setSettings, settings, exportButton }: PluginPr
                 required
                 {...register('eventType', { required: 'event type is required' })}
             />
-            <div className="w-full mt-auto">{exportButton}</div>
+            <Toolbar />
         </div>
     )
 }

@@ -42,26 +42,37 @@ export default function App() {
             <Plugin
                 settings={pluginSettings}
                 setSettings={setPluginSettings}
-                exportButton={
-                    <Button
-                        expand
-                        variant="primary"
-                        loading={loadingExport}
-                        disabled={loadingExport}
-                        onClick={() => {
-                            parent.postMessage(
-                                {
-                                    pluginMessage: {
-                                        type: 'export'
-                                    }
-                                },
-                                '*'
-                            )
-                        }}
-                    >
-                        Export
-                    </Button>
-                }
+                toolbar={({ slot }) => {
+                    return (
+                        <div className="flex flex-col pt-4 mt-auto gap-2 text-xs antialiased text-slate-600 ">
+                            <p>
+                                This plugin only saves data locally for future use and does not
+                                share or store it on external servers.
+                            </p>
+                            <div className="flex items-center gap-2 w-full justify-center">
+                                {slot}
+                                <Button
+                                    expand
+                                    variant="primary"
+                                    loading={loadingExport}
+                                    disabled={loadingExport}
+                                    onClick={() => {
+                                        parent.postMessage(
+                                            {
+                                                pluginMessage: {
+                                                    type: 'export'
+                                                }
+                                            },
+                                            '*'
+                                        )
+                                    }}
+                                >
+                                    Export
+                                </Button>
+                            </div>
+                        </div>
+                    )
+                }}
             />
         </div>
     )
