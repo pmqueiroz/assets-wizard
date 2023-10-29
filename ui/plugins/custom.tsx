@@ -6,7 +6,7 @@ import { Settings } from '../../shared/types'
 import { Input } from '../components/input'
 import { validadeDataTemplate } from '../helpers/validate-data-template'
 import { Button } from '../components/button'
-import { IoMdClose } from 'react-icons/io'
+import { IoCloseSharp } from 'react-icons/io5'
 
 interface CustomSettings {
     url: string
@@ -108,7 +108,7 @@ export default function Custom({ setSettings, settings, toolbar: Toolbar }: Plug
                                 onClick={() => handleRemoveHeader(index)}
                                 disabled={index === 0 && headers.length === 1}
                             >
-                                <IoMdClose />
+                                <IoCloseSharp />
                             </Button>
                         </div>
                     )

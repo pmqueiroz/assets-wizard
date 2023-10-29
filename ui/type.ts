@@ -1,3 +1,4 @@
+import { ComponentProps, ElementType } from 'react'
 import { Settings } from '../shared/types'
 
 export type PluginId = 'github' | 'custom'
@@ -11,3 +12,7 @@ export interface PluginProps {
     setSettings: (settings: Settings) => void
     toolbar: Toolbar
 }
+
+export type PolymorphicProps<P extends object, E extends ElementType = ElementType> = P & {
+    polymorphic?: E
+} & Omit<ComponentProps<E>, 'as'>

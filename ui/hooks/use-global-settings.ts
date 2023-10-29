@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Settings } from '../../shared/types'
+import { PluginProps } from '../type'
 
 export const useGlobalSettings = () => {
     const [pluginSettings, setPluginSettings] = useState<Settings | undefined>()
@@ -10,12 +11,10 @@ export const useGlobalSettings = () => {
         const msg = event.data.pluginMessage
 
         if (msg.type === 'set-settings') {
-            if (!msg.settings) {
-                setLoadingPluginSettings(false)
-                return
+            if (msg.settings) {
+                setPluginSettings(msg.settings)
             }
 
-            setPluginSettings(msg.settings)
             setLoadingPluginSettings(false)
         }
 
@@ -26,7 +25,6 @@ export const useGlobalSettings = () => {
 
     useEffect(() => {
         window.addEventListener('message', handleMessage)
-
         window.parent.postMessage({ pluginMessage: { type: 'fetch-settings' } }, '*')
 
         return () => {
@@ -34,7 +32,7 @@ export const useGlobalSettings = () => {
         }
     }, [])
 
-    const handleSetSettings = (settings: Settings) => {
+    const handleSetSettings: PluginProps['setSettings'] = settings => {
         window.parent.postMessage({ pluginMessage: { type: 'update-settings', settings } }, '*')
         setPluginSettings(settings)
     }

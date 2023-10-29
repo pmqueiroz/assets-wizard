@@ -4,11 +4,12 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     variant: 'primary' | 'neutral'
     expand?: boolean
     loading?: boolean
+    trimmed?: 'left' | 'right'
 }
 
 const variantStyle: Record<ButtonProps['variant'], string> = {
-    neutral: 'bg-gray-100 text-slate-950',
-    primary: 'bg-purple-500 text-white'
+    neutral: 'bg-gray-100 text-slate-950 hover:bg-gray-200',
+    primary: 'bg-purple-500 text-white hover:bg-purple-600'
 }
 
 const Loading = () => (
@@ -35,12 +36,14 @@ const Loading = () => (
 )
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-    ({ variant, expand, loading, children, ...rest }, ref) => {
+    ({ variant, expand, loading, children, trimmed, ...rest }, ref) => {
         return (
             <button
-                className={`h-12 px-4 py-3 gap-1 flex justify-center items-center text-base font-semibold rounded-lg ${
+                className={`transition-colors h-12 px-4 py-3 gap-1 flex justify-center items-center text-base font-semibold ${
                     variantStyle[variant]
                 } ${expand ? 'w-full' : ''}
+                ${trimmed !== 'right' ? 'rounded-r-lg' : ''}
+                ${trimmed !== 'left' ? 'rounded-l-lg' : ''}
                 disabled:opacity-40
                 `}
                 style={{ minWidth: '48px' }}

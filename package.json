@@ -20,6 +20,7 @@
   "devDependencies": {
     "@figma/plugin-typings": "*",
     "@types/handlebars": "^4.1.0",
+    "@types/lodash.debounce": "^4.0.8",
     "@types/node": "^20.8.7",
     "@types/prettier": "^3.0.0",
     "@types/react": "^18.2.29",
@@ -46,6 +47,8 @@
     "vitest": "^0.34.6"
   },
   "dependencies": {
+    "@floating-ui/react": "^0.26.1",
+    "lodash.debounce": "^4.0.8",
     "react-icons": "^4.11.0",
     "use-deep-compare-effect": "^1.8.1"
   }

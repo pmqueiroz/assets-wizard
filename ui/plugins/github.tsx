@@ -4,6 +4,7 @@ import { PluginProps } from '../type'
 import { useForm } from 'react-hook-form'
 import { Settings } from '../../shared/types'
 import { Input } from '../components/input'
+import debounce from 'lodash.debounce'
 
 interface GithubSettings {
     repo?: string
@@ -48,7 +49,9 @@ export default function Github({ setSettings, settings, toolbar: Toolbar }: Plug
         }
     }, [settings])
 
-    const onSubmit = (values: GithubSettings) => setSettings(parseSettings(values))
+    const onSubmit = debounce((values: GithubSettings) => {
+        setSettings(parseSettings(values))
+    }, 300)
 
     useEffect(() => {
         const subscription = watch(() => handleSubmit(onSubmit)())

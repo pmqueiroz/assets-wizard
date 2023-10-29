@@ -54,4 +54,8 @@ figma.ui.onmessage = async msg => {
     if (msg.type === 'update-settings') {
         await setSettings(msg.settings as Settings)
     }
+
+    if (msg.type === 'notify') {
+        figma.notify(msg.content, { error: msg.error })
+    }
 }
