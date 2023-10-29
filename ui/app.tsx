@@ -110,7 +110,7 @@ export default function App() {
                                     <Popover
                                         trigger={
                                             <Button variant="primary" trimmed="left">
-                                                <IoBuild />
+                                                <IoBuild size={18} />
                                             </Button>
                                         }
                                         open={popoverShown}
